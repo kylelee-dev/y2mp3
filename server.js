@@ -42,10 +42,13 @@ app.post("/convert-mp3", async (req, res) => {
   );
 
   const response = await fetchAPI.json();
-
-  res.json({
-    title: response.title,
-    link: response.link,
-  });
+  if (response.status === "fail") {
+    res.status(400).json(response.msg);
+  } else {
+    res.json({
+      title: response.title,
+      link: response.link,
+    });
+  }
 });
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
